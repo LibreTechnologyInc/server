@@ -37,7 +37,7 @@ export default function(opt) {
     });
 
     router.get('/api/tunnels', async (ctx, next) => {
-        const clients = manager.clients.values.map(client => {
+        const clients = manager.clients.values().map(client => {
             return {
                 id: client.id,
                 stats: client.stats(),
