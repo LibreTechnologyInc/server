@@ -23,18 +23,22 @@ export function Tunnels() {
       <div className={styles.row}>
         <span className={styles.value}>{count}</span>
       </div>
-      <hr />
       {tunnels.map(({ id, status }) => (
-        <div className={styles.row} key={id}>
-          <span>id</span>{" "}
-          <button
-            className={styles.button}
-            aria-label="Decrement value"
-            onClick={() => dispatch(evictTunnel(id))}
-          >
-            -
-          </button>
-          <pre>{JSON.stringify(status, null, 2)}</pre>
+        <div
+          className={styles.row}
+          key={id}
+          style={{ padding: 10, display: "block", position: "relative" }}
+        >
+          <div style={{ width: "100%", display: "block" }}>
+            {id}{" "}
+            <button
+              className={styles.button}
+              aria-label="Evict tunnel"
+              onClick={() => dispatch(evictTunnel(id))}
+            >
+              Evict ({status.connectedSockets})
+            </button>
+          </div>
         </div>
       ))}
     </div>

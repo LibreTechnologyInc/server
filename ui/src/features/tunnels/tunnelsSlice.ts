@@ -40,13 +40,25 @@ export const slice = createSlice({
   initialState: adapter.getInitialState({ loading: false }),
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(evictTunnel.pending, (state, action) => {
+      state.loading = true;
+    });
     builder.addCase(evictTunnel.fulfilled, (state, { payload }) => {
       state.loading = false;
       adapter.removeOne(state, payload);
     });
+    builder.addCase(evictTunnel.rejected, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(fetchTunnels.pending, (state, action) => {
+      state.loading = true;
+    });
     builder.addCase(fetchTunnels.fulfilled, (state, { payload }) => {
       state.loading = false;
       adapter.setAll(state, payload.clients);
+    });
+    builder.addCase(fetchTunnels.rejected, (state, action) => {
+      state.loading = false;
     });
   },
 });
