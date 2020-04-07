@@ -36,7 +36,7 @@ interface TunnelsResponse {
 const adapter = createEntityAdapter<Client>();
 
 export const slice = createSlice({
-  name: "counter",
+  name: "tunnels",
   initialState: adapter.getInitialState({ loading: false }),
   reducers: {},
   extraReducers: (builder) => {
