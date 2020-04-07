@@ -36,6 +36,19 @@ export default function(opt) {
         };
     });
 
+    router.get('/api/tunnels', async (ctx, next) => {
+        const clients = [];
+        manager.clients.forEach(client => {
+            clients.push({
+                id: client.id,
+                stats: client.stats(),
+            });
+        });
+        ctx.body = {
+            clients,
+        };
+    });
+
     router.get('/api/tunnels/:id/status', async (ctx, next) => {
         const clientId = ctx.params.id;
         const client = manager.getClient(clientId);
@@ -47,6 +60,20 @@ export default function(opt) {
         const stats = client.stats();
         ctx.body = {
             connected_sockets: stats.connectedSockets,
+        };
+    });
+
+    router.delete('/api/tunnels/:id', async (ctx, next) => {
+        const clientId = ctx.params.id;
+        const client = manager.getClient(clientId);
+        if (!client) {
+            ctx.throw(404);
+            return;
+        }
+
+        client.close();
+        ctx.body = {
+            closed: true,
         };
     });
 
