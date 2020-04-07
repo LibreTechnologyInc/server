@@ -31,8 +31,11 @@ export default function (opt) {
   const app = new Koa();
   const router = new Router();
 
-  app.use(serve(__dirname + "/ui/build")); //serve the build directory
-  app.use(mount("/ui", app));
+  const ui = new Koa();
+
+  ui.use(serve(__dirname + "/ui/build")); //serve the build directory
+
+  app.use(mount("/ui", ui));
   app.use(cors());
 
   router.get("/api/status", async (ctx, next) => {
