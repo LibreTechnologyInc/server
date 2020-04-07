@@ -5,13 +5,16 @@ import {
 } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-export const evictTunnel = createAsyncThunk(
-  "tunnels/evict",
-  async (id: string) => {
-    const result = await fetch(`/api/tunnels/${id}`, { method: "DELETE" });
-    return result.json();
-  }
-);
+export const evictTunnel = createAsyncThunk<
+  { closed: boolean; id: string },
+  string,
+  { state: RootState }
+>("tunnels/evict", async (id: string) => {
+  const result = await fetch(`/api/tunnels/${id}`, {
+    method: "DELETE",
+  });
+  return { ...result.json(), id };
+});
 
 export const fetchTunnels = createAsyncThunk<
   TunnelsResponse,
@@ -26,7 +29,7 @@ export const fetchTunnels = createAsyncThunk<
 
 interface Client {
   id: string;
-  status: {
+  stats: {
     connectedSockets: number;
   };
 }
@@ -45,7 +48,7 @@ export const slice = createSlice({
     });
     builder.addCase(evictTunnel.fulfilled, (state, { payload }) => {
       state.loading = false;
-      adapter.removeOne(state, payload);
+      adapter.removeOne(state, payload.id);
     });
     builder.addCase(evictTunnel.rejected, (state, action) => {
       state.loading = false;

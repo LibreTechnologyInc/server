@@ -23,7 +23,7 @@ export function Tunnels() {
       <div className={styles.row}>
         <span className={styles.value}>{count}</span>
       </div>
-      {tunnels.map(({ id, status }) => (
+      {tunnels.map(({ id, stats }) => (
         <div
           className={styles.row}
           key={id}
@@ -36,7 +36,7 @@ export function Tunnels() {
               aria-label="Evict tunnel"
               onClick={() => dispatch(evictTunnel(id))}
             >
-              Evict ({status.connectedSockets})
+              Evict ({stats.connectedSockets})
             </button>
           </div>
         </div>
