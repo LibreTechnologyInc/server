@@ -38,12 +38,12 @@ export default function(opt) {
 
     router.get('/api/tunnels', async (ctx, next) => {
         const clients = [];
-        for (const [id, client] of manager.clients) {
+        manager.clients.forEach(client => {
             clients.push({
                 id: client.id,
                 stats: client.stats(),
             });
-        }
+        });
         ctx.body = {
             clients,
         };
