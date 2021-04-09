@@ -115,7 +115,8 @@ export default function (opt) {
     }
 
     // no new client request, send to landing page
-    ctx.redirect(landingPage);
+    ctx.body = 'OK';
+    return;
   });
 
   // anything after the / path is a request for a specific client name
