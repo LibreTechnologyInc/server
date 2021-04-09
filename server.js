@@ -8,6 +8,7 @@ import Router from "koa-router";
 import mount from "koa-mount";
 import serve from "koa-static";
 import cors from "koa-cors";
+import path from "path";
 
 import ClientManager from "./lib/ClientManager.js";
 
@@ -35,7 +36,8 @@ export default function (opt) {
 
   const ui = new Koa();
 
-  ui.use(serve(import.meta.url + "/ui/build")); //serve the build directory
+  const dirname = path.dirname(import.meta.url).substring('file://'.length);
+  ui.use(serve(dirname + "/ui/build")); //serve the build directory
 
   app.use(mount("/ui", ui));
   app.use(cors());
