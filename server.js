@@ -9,9 +9,11 @@ import mount from "koa-mount";
 import serve from "koa-static";
 import cors from "koa-cors";
 
-import ClientManager from "./lib/ClientManager";
+import ClientManager from "./lib/ClientManager.js";
 
 const debug = Debug("localtunnel:server");
+
+const FORCE_PREFIX = 'FORCE:';
 
 export default function (opt) {
   opt = opt || {};
@@ -33,7 +35,7 @@ export default function (opt) {
 
   const ui = new Koa();
 
-  ui.use(serve(__dirname + "/ui/build")); //serve the build directory
+  ui.use(serve(import.meta.url + "/ui/build")); //serve the build directory
 
   app.use(mount("/ui", ui));
   app.use(cors());
@@ -129,7 +131,13 @@ export default function (opt) {
       return;
     }
 
-    const reqId = parts[1];
+    let reqId = parts[1];
+    const newClientOptions = {};
+
+    if (reqId.startsWith(FORCE_PREFIX)) {
+      newClientOptions.force = true;
+      reqId = reqId.substring(FORCE_PREFIX.length);
+    }
 
     // limit requested hostnames to 63 characters
     if (!/^(?:[a-z0-9][a-z0-9\-]{4,63}[a-z0-9]|[a-z0-9]{4,63})$/.test(reqId)) {
@@ -143,7 +151,7 @@ export default function (opt) {
     }
 
     debug("making new client with id %s", reqId);
-    const info = await manager.newClient(reqId);
+    const info = await manager.newClient(reqId, newClientOptions);
 
     const url = schema + "://" + info.id + "." + ctx.request.host;
     info.url = url;
