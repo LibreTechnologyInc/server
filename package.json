@@ -32,8 +32,8 @@
   },
   "scripts": {
     "test": "mocha --check-leaks './**/*.test.js'",
-    "start": "./bin/server",
-    "dev": "./bin/server --port 3000",
-    "dev-all": "concurrently \"./bin/server --port 3000\" \"npm start -prefix=ui\""
+    "start": "./bin/server.mjs",
+    "dev": "./bin/server.mjs --port 3000",
+    "dev-all": "concurrently \"./bin/server.mjs --port 3000\" \"npm start -prefix=ui\""
   }
 }

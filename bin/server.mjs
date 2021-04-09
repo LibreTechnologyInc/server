@@ -1,4 +1,4 @@
-#!/usr/bin/env node --input-type=module
+#!/usr/bin/env node
 
 import 'localenv';
 import optimist from 'optimist';
