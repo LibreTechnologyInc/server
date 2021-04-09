@@ -1,4 +1,4 @@
-#!/usr/bin/env node -r esm
+#!/usr/bin/env node
 
 import 'localenv';
 import optimist from 'optimist';
@@ -6,7 +6,7 @@ import optimist from 'optimist';
 import log from 'book';
 import Debug from 'debug';
 
-import CreateServer from '../server';
+import CreateServer from '../server.js';
 
 const debug = Debug('localtunnel');
 
@@ -17,7 +17,7 @@ const argv = optimist
         describe: 'use this flag to indicate proxy over https'
     })
     .options('port', {
-        default: '80',
+        default: '3000',
         describe: 'listen on this port for outside requests'
     })
     .options('address', {

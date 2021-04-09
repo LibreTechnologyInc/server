@@ -1,6 +1,7 @@
-FROM node:10.1.0-alpine
+FROM node:14
 
 WORKDIR /app
+EXPOSE 3000
 
 COPY package.json /app/
 COPY yarn.lock /app/
@@ -9,5 +10,7 @@ RUN yarn install --production && yarn cache clean
 
 COPY . /app
 
+RUN cd ui && yarn install --production && yarn build
+
 ENV NODE_ENV production
-ENTRYPOINT ["node", "-r", "esm", "./bin/server"]
+ENTRYPOINT ["node", "./bin/server.mjs"]
