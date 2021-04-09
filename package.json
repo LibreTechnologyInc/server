@@ -33,7 +33,7 @@
   "scripts": {
     "test": "mocha --check-leaks './**/*.test.js'",
     "start": "./bin/server",
-    "dev": "node-dev esm bin/server --port 3000",
-    "dev-all": "concurrently \"node-dev esm bin/server --port 3000\" \"npm start -prefix=ui\""
+    "dev": "./bin/server --port 3000",
+    "dev-all": "concurrently \"./bin/server --port 3000\" \"npm start -prefix=ui\""
   }
 }
